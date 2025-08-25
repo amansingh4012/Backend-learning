@@ -1,0 +1,6 @@
+
+// call back fn
+
+function person(name, callbackfn){
+    console.log
+}
