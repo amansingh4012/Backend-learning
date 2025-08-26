@@ -1,0 +1,8 @@
+<%- include('components/header.ejs') %>
+<h1> wellcome to home page </h1>
+<label> List of products</label>
+
+<ul>
+    <% for(let i=0; i<products.length; i++){ %>
+        <li><%= products[i].title %></li>
+    <% } %>
