@@ -21,14 +21,14 @@ async function runQuerExample() {
     try {
         // create new document
         
-        // const newUser = await User.create({
-        //     name : "Vishwas tiwari",
-        //     email: "vishwas@gmail.com",
-        //     age: 22,
-        //     isActive: false,
-        //     tags: [ 'designer']
+        const newUser = await User.create({
+            name : "Update",
+            email: "update@gmail.com",
+            age: 60,
+            isActive: true,
+            tags: [ 'designer']
 
-        // }) 
+        }) 
 
             // create new user by save method but use generally use first one 
        /*
@@ -44,7 +44,7 @@ async function runQuerExample() {
         await newUser.save();
         */
 
-      // console.log("new user Created",newUser)
+       console.log("new user Created",newUser)
 
         //const allUser = await User.find({isActive : true});
         // const getUerById = await User.findById(newUser._id);
@@ -59,10 +59,22 @@ async function runQuerExample() {
     // const limitedUser =await User.find().limit(3).skip(1);
     // console.log(limitedUser);
 
-    const sortedUser = await User.find().sort({age : 1});
-    console.log(sortedUser);
+    // const sortedUser = await User.find().sort({age : 1});
+    // console.log(sortedUser);
 
+        // const countDocument = await User.countDocuments({age : 23})
+        // console.log(countDocument);
 
+        // const deletedUser = await User.findByIdAndDelete(newUser._id);
+        // console.log("deleted user -> ", deletedUser);
+
+        const updateUser = await User.findByIdAndUpdate(newUser._id, {
+            $set : {age : 100, name : "Updated"},
+            $push : {tags : "Updated"}
+            
+        }, {new : true})
+
+        console.log("Updated User -> ", updateUser);
         
     } catch (e) {
         console.log(e)
