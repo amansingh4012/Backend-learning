@@ -8,6 +8,8 @@ const PORT = (process.env.PORT) || 3000;
 
 connectToDB();
 
+app.use(express.json())
+
 
 app.use('/api/auth',authRoutes);
 

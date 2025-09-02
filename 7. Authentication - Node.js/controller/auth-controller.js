@@ -19,6 +19,44 @@ const registerUser = async(req,res) => {
         }
 
         // hash user password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPasswordd =await bcrypt.hash(password,salt);
+
+        //create a new user and save in your database 
+
+        const newlyCreatedUser  = new User({
+            username,
+            email,
+            password : hashedPasswordd,
+            role : role || 'user'
+        })
+
+        await newlyCreatedUser.save();
+
+        if(newlyCreatedUser){
+            res.status(201).json({
+                success : true,
+                message : 'User registered successfully'
+            })
+        }else{
+            res.status(400).json({
+                success : false,
+                message : 'please try again'
+            })
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         
     } catch (error) {
