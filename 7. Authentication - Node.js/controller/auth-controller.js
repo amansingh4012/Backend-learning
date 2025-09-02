@@ -1,5 +1,6 @@
 const User = require('../models/User')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 
 // register controller
@@ -46,18 +47,6 @@ const registerUser = async(req,res) => {
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         
     } catch (error) {
          console.log(error),
@@ -78,7 +67,44 @@ const registerUser = async(req,res) => {
 
 const loginUser = async(req,res) => {
     try {
-        
+        const {username , password} = req.body;
+
+        //find if the current user is exist in database or not 
+        const user = await User.findOne({username});
+
+        if(!user){
+            res.status(400).json({
+                success : false,
+                message : 'user doesnt exists'
+            })
+        }
+
+        // if the password is correct or not
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+        if(!isPasswordMatch){
+            res.status(400).json({
+                success : false,
+                message : 'invalid Password'
+            })
+        }
+
+        // create user token 
+        const accessToken = jwt.sign({
+            userId : user._id,
+            username : user.username,
+            role : user.role
+        },process.env.JWT_SECRET,{
+            expiresIn : '15m'
+        })
+
+        res.status(200).json({
+            success : true,
+            message : 'logged in successfully',
+            accessToken
+        })
+
+
 
 
     } catch (error) {
