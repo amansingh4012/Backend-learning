@@ -1,6 +1,8 @@
 const Image = require('../models/image')
 const uploadToCloudinary = require('../helper/cloudinaryHelper')
 const fs = require('fs')
+const cloudinary = require('../config/cloudinary')
+const { waitForDebugger } = require('inspector')
 
 const uploadImageController = async ( req , res) => {
   try {
@@ -67,6 +69,50 @@ const fetchImageController = async (req, res) => {
 
 }
 
+const deleteImageController = async (req,res)=> {
+try {
+        const getCurrentIdofImageToBeDeleted = req.params.id;
 
-module.exports = {uploadImageController, fetchImageController}
+    const userId = req.userInfo.userId;
+
+    const image = await Image.findById(getCurrentIdofImageToBeDeleted);
+
+    if(!image){
+        return res.status(404).json({
+            success : false,
+            message : "image not found "
+        })
+    }
+
+    // check if this image is uploaded by the current user who is trying to delete this image 
+    if(image.uploadedBy.toString() !== userId){
+        return res.status(404).json({
+            success : false,
+            message : 'u r not authorized to delete this image '
+        })
+    }
+
+    //delete the image from cloudinary first 
+    await cloudinary.uploader.destroy(image.publicId);
+
+    //delete the image from monogodb 
+    await Image.findByIdAndDelete(getCurrentIdofImageToBeDeleted);
+
+    res.status(200).json({
+        success : true,
+        message : " image deleted successfully"
+    })
+
+
+} catch (error) {
+      console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong! Please try again",
+    });
+}
+}
+
+
+module.exports = {uploadImageController, fetchImageController, deleteImageController}
  
