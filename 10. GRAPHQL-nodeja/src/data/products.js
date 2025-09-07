@@ -1,32 +1,25 @@
 const products = [
-    {
-        title : "Shoe",
-        category: "Sports",
-        id : 1,
-        price : 567,
-        inStock : false
-    },
-     {
-        title : "Phone",
-        category: "Electronics",
-        id : 2,
-        price : 567.55,
-        inStock : true
-    },
-     {
-        title : "coffee",
-        category: "bevrage",
-        id : 3,
-        price : 3,
-        inStock : false
-    },
-     {
-        title : "banana",
-        category: "fruits",
-        id : 4,
-        price : 567,
-        inStock : false
-    },
+  {
+    id: "1",
+    title: "Laptop",
+    category: "Electronics",
+    price: 990.95,
+    inStock: true,
+  },
+  {
+    id: "2",
+    title: "Coffee",
+    category: "Food",
+    price: 50.95,
+    inStock: true,
+  },
+  {
+    id: "3",
+    title: "Shoes",
+    category: "Sports",
+    price: 1990.95,
+    inStock: false,
+  },
 ];
 
-module.exports = product;
+module.exports = products;
